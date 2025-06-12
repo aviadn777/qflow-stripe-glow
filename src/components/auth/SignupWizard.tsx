@@ -4,7 +4,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
 import WizardStep1 from './wizard/WizardStep1';
 import WizardStep2 from './wizard/WizardStep2';
-import WizardStep3 from './wizard/WizardStep3';
+import ProfessionalSuccessModal from './wizard/ProfessionalSuccessModal';
 import { UserType, WizardFormData } from './wizard/types';
 
 interface SignupWizardProps {
@@ -21,7 +21,6 @@ const SignupWizard: React.FC<SignupWizardProps> = ({
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [userType, setUserType] = useState<UserType | null>(null);
   const [formData, setFormData] = useState<WizardFormData>({});
-  const [showHeartsCelebration, setShowHeartsCelebration] = useState(false);
 
   const handleUserTypeSelect = (type: UserType) => {
     setUserType(type);
@@ -30,7 +29,6 @@ const SignupWizard: React.FC<SignupWizardProps> = ({
 
   const handleFormComplete = (data: WizardFormData) => {
     setFormData(data);
-    setShowHeartsCelebration(true);
     setStep(3);
   };
 
@@ -40,7 +38,6 @@ const SignupWizard: React.FC<SignupWizardProps> = ({
     setStep(1);
     setUserType(null);
     setFormData({});
-    setShowHeartsCelebration(false);
   };
 
   const handleBack = () => {
@@ -52,7 +49,7 @@ const SignupWizard: React.FC<SignupWizardProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[400px] bg-white border-0 shadow-2xl rounded-2xl p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-[420px] bg-white border-0 shadow-2xl rounded-2xl p-0 overflow-hidden">
         <div className="wizard-container bg-gradient-to-br from-white to-gray-50/50">
           {step === 1 && (
             <WizardStep1
@@ -72,11 +69,10 @@ const SignupWizard: React.FC<SignupWizardProps> = ({
           )}
           
           {step === 3 && (
-            <WizardStep3
+            <ProfessionalSuccessModal
               language={language}
               userType={userType}
               formData={formData}
-              showHeartsCelebration={showHeartsCelebration}
               onComplete={handleWizardComplete}
             />
           )}

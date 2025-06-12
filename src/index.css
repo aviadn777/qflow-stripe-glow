@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,6 +18,9 @@
     /* BRIGHT CYAN - ADDED MISSING COLOR */
     --stripe-dark-navy: #1a1f36;
     /* Dark sections, code blocks */
+
+    /* Modern Gradient Hearts */
+    --heart-gradient: linear-gradient(135deg, #ff6b35 0%, #ff4757 30%, #9c44dc 70%, #5f27cd 100%);
 
     /* Text Hierarchy */
     --text-primary: #0d1117;
@@ -174,6 +178,73 @@
     direction: rtl;
   }
 
+  /* Modern Gradient Hearts */
+  .modern-gradient-heart {
+    background: var(--heart-gradient);
+    position: relative;
+    display: inline-block;
+  }
+
+  .modern-gradient-heart::before,
+  .modern-gradient-heart::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+  }
+
+  .modern-gradient-heart::before {
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform-origin: 0 100%;
+    transform: rotate(-45deg);
+  }
+
+  .modern-gradient-heart::after {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: -50%;
+    transform-origin: 100% 100%;
+    transform: rotate(45deg);
+  }
+
+  /* Professional Success Modal Styles */
+  .success-modal-enter {
+    animation: successModalEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes successModalEnter {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  .success-checkmark-appear {
+    animation: checkmarkAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes checkmarkAppear {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
   /* Responsive text scaling */
   @media (max-width: 768px) {
     .price-currency {
@@ -297,7 +368,7 @@
 
   /* Organic background shape overlay */
   .organic-background-shape {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
