@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Clock, TrendingUp, Star, Smartphone, Globe, Zap } from 'lucide-react';
 
@@ -95,7 +94,7 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
   const currentContent = content[currentLanguage];
 
   return (
-    <section 
+    <section
       className="relative py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(255, 97, 171, 0.1) 0%, rgba(110, 195, 244, 0.1) 100%)',
@@ -106,7 +105,7 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
       }}
     >
       {/* Geometric Overlay */}
-      <div 
+      <div
         className="absolute top-0 right-0 w-80 h-80 opacity-30"
         style={{
           background: 'linear-gradient(135deg, rgba(99, 91, 255, 0.2), rgba(255, 186, 39, 0.2))',
@@ -117,7 +116,7 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
         }}
       />
 
-      <div 
+      <div
         className="relative z-10"
         style={{
           transform: 'skewY(3deg)' // Counter-rotate content
@@ -126,8 +125,8 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Section Title */}
           <div className={`text-center mb-16 ${currentLanguage === 'hebrew' ? 'hebrew-text' : ''}`}>
-            <h2 
-              className="section-title text-gray-900 max-w-4xl mx-auto"
+            <h2
+              className="section-title text-white max-w-4xl mx-auto"
               dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}
             >
               {currentContent.title}
@@ -147,16 +146,16 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
                   <div className={`${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'} h-full flex flex-col`}>
                     {/* Icon and Title */}
                     <div className={`flex items-center ${currentLanguage === 'hebrew' ? 'flex-row-reverse' : 'flex-row'} mb-4`}>
-                      <div 
+                      <div
                         className="w-12 h-12 rounded-lg flex items-center justify-center mr-4"
                         style={{ background: 'var(--gradient-card)' }}
                       >
-                        <IconComponent 
-                          className="w-6 h-6" 
+                        <IconComponent
+                          className="w-6 h-6"
                           style={{ color: 'var(--stripe-purple)' }}
                         />
                       </div>
-                      <h3 
+                      <h3
                         className="card-title text-gray-900"
                         style={{
                           fontFamily: currentLanguage === 'hebrew' ? '"Noto Sans Hebrew", system-ui' : '"Inter", system-ui'
@@ -167,7 +166,7 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
                     </div>
 
                     {/* Statistics */}
-                    <div 
+                    <div
                       className="text-2xl font-bold mb-4"
                       style={{ color: 'var(--stripe-purple)' }}
                     >
@@ -175,7 +174,7 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
                     </div>
 
                     {/* Description */}
-                    <p 
+                    <p
                       className="text-gray-600 leading-relaxed flex-1"
                       style={{
                         fontFamily: currentLanguage === 'hebrew' ? '"Noto Sans Hebrew", system-ui' : '"Inter", system-ui'
@@ -201,8 +200,8 @@ const ValuePropositionSection: React.FC<ValuePropositionSectionProps> = ({ curre
               <span style={{
                 fontFamily: currentLanguage === 'hebrew' ? '"Noto Sans Hebrew", system-ui' : '"Inter", system-ui'
               }}>
-                {currentLanguage === 'hebrew' 
-                  ? 'התחל עכשיו ❤️' 
+                {currentLanguage === 'hebrew'
+                  ? 'התחל עכשיו ❤️'
                   : 'Get Started Now ❤️'
                 }
               </span>

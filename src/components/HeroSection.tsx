@@ -1,4 +1,3 @@
-
 import React from 'react';
 import GradientBackground from './GradientBackground';
 import PhoneMockup from './PhoneMockup';
@@ -47,7 +46,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
           {/* Left Side - Content */}
           <div className={`hero-text ${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'}`}>
             <div className="space-y-6">
-              <h1 
+              <h1
                 className="hero-title text-white"
                 data-text={currentContent.title}
                 style={{
@@ -60,8 +59,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
               >
                 {currentContent.title}
               </h1>
-              
-              <p 
+
+              <p
                 className="hero-subtitle"
                 style={{
                   color: 'rgba(255, 255, 255, 0.95)',
@@ -106,7 +105,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
           </div>
         </div>
       </section>
-
       {/* Organic transition to next section */}
       <div className="hero-to-content-transition"></div>
     </>
