@@ -43,7 +43,7 @@ const HeartsAnimation: React.FC = () => {
       <div className="absolute top-3/4 right-1/4 sparkle-elements text-xl" style={{ animationDelay: '1s' }}>✨</div>
       <div className="absolute top-1/2 left-3/4 sparkle-elements text-xl" style={{ animationDelay: '2s' }}>✨</div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes floatingHearts {
           0% {
             transform: translateY(0) scale(1);

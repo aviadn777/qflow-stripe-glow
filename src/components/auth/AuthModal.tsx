@@ -1,7 +1,10 @@
+
 import React from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
 import SignupWizard from './SignupWizard';
 import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
 const AuthModal = () => {
   const { isModalOpen, closeModal, modalMode, setModalMode } = useAuth();
