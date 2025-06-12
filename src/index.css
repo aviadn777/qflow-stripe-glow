@@ -1,94 +1,94 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+/* Stripe-Exact Color System and Design Foundation */
 
 @layer base {
   :root {
+    /* Stripe Exact Color System */
+    --stripe-purple: #635bff;        /* DOMINANT PURPLE - Main brand color */
+    --stripe-blue: #0570de;          /* Secondary blue */
+    --stripe-light-blue: #74a9fc;    /* Light blue accents */
+    --stripe-dark-navy: #1a1f36;     /* Dark sections, code blocks */
+    
+    /* Text Hierarchy */
+    --text-primary: #0d1117;         /* Main headlines and text */
+    --text-secondary: #656c7a;       /* Secondary descriptions */
+    --text-muted: #8b949e;           /* Muted supporting text */
+    
+    /* Background System */
+    --bg-primary: #ffffff;           /* Pure white cards and content */
+    --bg-secondary: #f7f9fc;         /* Light section backgrounds */
+    --bg-dark: #1a1f36;             /* Dark footer and code sections */
+    
+    /* Accent & Status Colors */
+    --success: #00d924;              /* Success states and confirmations */
+    --error: #ff5722;                /* Error states and warnings */
+    --warning: #ffb800;              /* Caution and pending states */
+    
+    /* Stripe Signature Gradients */
+    --gradient-hero: linear-gradient(135deg, #ff61ab 0%, #6ec3f4 25%, #3a3aff 50%, #ff333d 75%, #ffba27 100%);
+    --gradient-button: linear-gradient(135deg, #635bff 0%, #0570de 100%);
+    --gradient-dark: linear-gradient(135deg, #1a1f36 0%, #635bff 100%);
+    --gradient-light: linear-gradient(135deg, #f7f9fc 0%, #ffffff 100%);
+    --gradient-card: linear-gradient(135deg, rgba(99, 91, 255, 0.05) 0%, rgba(116, 169, 252, 0.05) 100%);
+
+    /* Update existing CSS variables to use Stripe colors */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 254 88% 65%;  /* Stripe purple */
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --ring: 254 88% 65%;
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Mathematical Spacing (Stripe's Approach) */
+    --space-1: 4px;   /* Micro spacing */
+    --space-2: 8px;   /* Small spacing */
+    --space-3: 12px;  /* Medium-small */
+    --space-4: 16px;  /* Base unit */
+    --space-5: 24px;  /* Medium */
+    --space-6: 32px;  /* Large */
+    --space-8: 48px;  /* Extra large */
+    --space-10: 64px; /* Section spacing */
+    --space-12: 80px; /* Hero spacing */
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -99,5 +99,207 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  /* Hebrew Typography */
+  .hebrew-text {
+    font-family: "Noto Sans Hebrew", "Inter", system-ui, sans-serif;
+    font-size: 1.2em; /* 20% larger for Hebrew readability */
+    line-height: 1.6; /* Increased for Hebrew characters */
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Typography Hierarchy */
+  .hero-title { 
+    font-size: clamp(32px, 8vw, 64px); 
+    font-weight: 700; 
+    line-height: 1.1; 
+  }
+  
+  .section-title { 
+    font-size: clamp(24px, 5vw, 40px); 
+    font-weight: 600; 
+    line-height: 1.2; 
+  }
+  
+  .card-title { 
+    font-size: 24px; 
+    font-weight: 600; 
+    line-height: 1.3; 
+  }
+  
+  .body-large { 
+    font-size: 18px; 
+    font-weight: 400; 
+    line-height: 1.6; 
+  }
+  
+  .body-text { 
+    font-size: 16px; 
+    font-weight: 400; 
+    line-height: 1.5; 
+  }
+
+  /* RTL Support */
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  [dir="rtl"] .flex-row { 
+    flex-direction: row-reverse; 
+  }
+
+  /* Logical Properties for Auto-Flip */
+  .margin-start { margin-inline-start: 1rem; }
+  .padding-end { padding-inline-end: 1rem; }
+}
+
+@layer components {
+  /* Stripe-style buttons */
+  .btn-gradient-primary {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    min-height: 52px;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .btn-gradient-primary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+  }
+
+  .btn-gradient-secondary {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    min-height: 52px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .btn-gradient-secondary:hover {
+    background: rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* Primary button for sections */
+  .primary-button {
+    background: var(--gradient-button);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    min-height: 52px;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    cursor: pointer;
+  }
+
+  .primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 91, 255, 0.4);
+  }
+
+  /* Glassmorphism cards */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 1);
+  }
+
+  /* Diagonal section transitions */
+  .diagonal-cut-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: inherit;
+    transform: skewY(-2deg);
+    transform-origin: top left;
+    z-index: -1;
+  }
+
+  .diagonal-cut-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: inherit;
+    transform: skewY(-2deg);
+    transform-origin: bottom right;
+    z-index: -1;
+  }
+}
+
+@layer utilities {
+  /* Animations */
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+  .fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Floating animations */
+  @keyframes float {
+    0%, 100% { transform: rotate(15deg) translateY(0px); }
+    50% { transform: rotate(15deg) translateY(-20px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 0.4; }
+  }
+
+  .animate-float {
+    animation: float 10s ease-in-out infinite;
+  }
+
+  .animate-pulse-custom {
+    animation: pulse 8s ease-in-out infinite;
   }
 }
