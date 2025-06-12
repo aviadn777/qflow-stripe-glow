@@ -12,7 +12,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChange }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, openModal, setModalMode } = useAuth();
+  const { user, openModal, setModalMode, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -196,7 +196,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
                         <button 
                           onClick={async () => {
                             setIsMobileMenuOpen(false);
-                            const { signOut } = await import('@/contexts/AuthContext');
+                            await signOut();
                           }}
                           className="block text-lg font-medium text-red-600 hover:text-red-700 transition-colors hebrew-text text-right w-full"
                         >
@@ -217,7 +217,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
                         <button 
                           onClick={async () => {
                             setIsMobileMenuOpen(false);
-                            const { signOut } = await import('@/contexts/AuthContext');
+                            await signOut();
                           }}
                           className="block text-lg font-medium text-red-600 hover:text-red-700 transition-colors w-full text-left"
                         >
