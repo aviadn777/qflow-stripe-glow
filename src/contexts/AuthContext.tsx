@@ -9,7 +9,7 @@ interface AuthContextType {
   loading: boolean;
   signUp: (email: string, password: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signInWithGoogle: () => Promise<{ error: any }>;
+  signInWithGoogle: (userType?: 'business_owner' | 'customer') => Promise<{ error: any }>;
   signOut: () => Promise<{ error: any }>;
   isModalOpen: boolean;
   openModal: () => void;
@@ -76,13 +76,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (userType: 'business_owner' | 'customer' = 'customer') => {
     const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl
+        redirectTo: redirectUrl,
+        queryParams: {
+          user_type: userType
+        }
       }
     });
     return { error };
