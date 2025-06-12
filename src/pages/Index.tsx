@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navigation from '../components/Navigation';
 import HeroSection from '../components/HeroSection';
 import ValuePropositionSection from '../components/ValuePropositionSection';
@@ -8,25 +8,34 @@ import PricingSection from '../components/PricingSection';
 import Footer from '../components/Footer';
 
 const Index = () => {
+  const [currentLanguage, setCurrentLanguage] = useState<'hebrew' | 'english'>('hebrew');
+
+  const handleLanguageChange = (language: 'hebrew' | 'english') => {
+    setCurrentLanguage(language);
+  };
+
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Navigation */}
-      <Navigation />
+      <Navigation 
+        currentLanguage={currentLanguage} 
+        onLanguageChange={handleLanguageChange} 
+      />
 
       {/* Hero Section with Animated Gradient */}
-      <HeroSection />
+      <HeroSection currentLanguage={currentLanguage} />
 
       {/* Value Proposition Section with Diagonal Transition */}
-      <ValuePropositionSection />
+      <ValuePropositionSection currentLanguage={currentLanguage} />
 
       {/* Developer/Business Owner Section */}
-      <DeveloperSection />
+      <DeveloperSection currentLanguage={currentLanguage} />
 
       {/* Pricing Section */}
-      <PricingSection />
+      <PricingSection currentLanguage={currentLanguage} />
 
       {/* Footer */}
-      <Footer />
+      <Footer currentLanguage={currentLanguage} />
     </div>
   );
 };
