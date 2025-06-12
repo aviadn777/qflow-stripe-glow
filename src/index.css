@@ -7,10 +7,11 @@
 
 @layer base {
   :root {
-    /* Stripe Exact Color System */
+    /* Stripe Exact Color System with added cyan */
     --stripe-purple: #635bff;        /* DOMINANT PURPLE - Main brand color */
     --stripe-blue: #0570de;          /* Secondary blue */
     --stripe-light-blue: #74a9fc;    /* Light blue accents */
+    --stripe-cyan: #00d3fe;          /* BRIGHT CYAN - ADDED MISSING COLOR */
     --stripe-dark-navy: #1a1f36;     /* Dark sections, code blocks */
     
     /* Text Hierarchy */
@@ -28,21 +29,21 @@
     --error: #ff5722;                /* Error states and warnings */
     --warning: #ffb800;              /* Caution and pending states */
     
-    /* Stripe Signature Gradients */
-    --gradient-hero: linear-gradient(135deg, #ff61ab 0%, #6ec3f4 25%, #3a3aff 50%, #ff333d 75%, #ffba27 100%);
+    /* Stripe Signature Gradients with updated colors */
+    --gradient-hero: linear-gradient(135deg, #ff61ab 0%, #00d3fe 20%, #6ec3f4 40%, #3a3aff 60%, #ff333d 80%, #ffba27 100%);
     --gradient-button: linear-gradient(135deg, #635bff 0%, #0570de 100%);
     --gradient-dark: linear-gradient(135deg, #1a1f36 0%, #635bff 100%);
     --gradient-light: linear-gradient(135deg, #f7f9fc 0%, #ffffff 100%);
     --gradient-card: linear-gradient(135deg, rgba(99, 91, 255, 0.05) 0%, rgba(116, 169, 252, 0.05) 100%);
 
-    /* Update existing CSS variables to use Stripe colors */
+    /* Updated CSS variables */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 254 88% 65%;  /* Stripe purple */
+    --primary: 254 88% 65%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -58,15 +59,15 @@
     --radius: 0.5rem;
 
     /* Mathematical Spacing (Stripe's Approach) */
-    --space-1: 4px;   /* Micro spacing */
-    --space-2: 8px;   /* Small spacing */
-    --space-3: 12px;  /* Medium-small */
-    --space-4: 16px;  /* Base unit */
-    --space-5: 24px;  /* Medium */
-    --space-6: 32px;  /* Large */
-    --space-8: 48px;  /* Extra large */
-    --space-10: 64px; /* Section spacing */
-    --space-12: 80px; /* Hero spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-8: 48px;
+    --space-10: 64px;
+    --space-12: 80px;
   }
 
   .dark {
@@ -106,8 +107,8 @@
   /* Hebrew Typography */
   .hebrew-text {
     font-family: "Noto Sans Hebrew", "Inter", system-ui, sans-serif;
-    font-size: 1.2em; /* 20% larger for Hebrew readability */
-    line-height: 1.6; /* Increased for Hebrew characters */
+    font-size: 1.2em;
+    line-height: 1.6;
     direction: rtl;
     text-align: right;
   }
@@ -117,6 +118,14 @@
     font-size: clamp(32px, 8vw, 64px); 
     font-weight: 700; 
     line-height: 1.1; 
+    position: relative;
+  }
+  
+  .hero-subtitle { 
+    font-size: clamp(16px, 3vw, 20px); 
+    font-weight: 400; 
+    line-height: 1.6;
+    max-width: 500px;
   }
   
   .section-title { 
@@ -159,11 +168,124 @@
 }
 
 @layer components {
-  /* Stripe-style buttons */
+  /* Hero Section with Organic Shape */
+  .hero-gradient-background {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    /* Organic curved background */
+    background: var(--gradient-hero);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  }
+
+  /* Organic background shape overlay */
+  .organic-background-shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    background: radial-gradient(ellipse 150% 100% at 50% 0%, 
+      rgba(255, 97, 171, 0.8) 0%,
+      rgba(0, 211, 254, 0.6) 20%,
+      rgba(110, 195, 244, 0.4) 40%,
+      rgba(58, 58, 255, 0.6) 60%,
+      rgba(255, 51, 61, 0.5) 80%,
+      rgba(255, 186, 39, 0.3) 100%);
+    border-radius: 0 0 60% 40% / 0 0 100% 80%;
+    z-index: 1;
+  }
+
+  /* Hero content positioning for organic flow */
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 40px 150px;
+    min-height: 100vh;
+    align-items: center;
+  }
+
+  .hero-text {
+    position: relative;
+    z-index: 15;
+    margin-top: -50px;
+    space-y: 8;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .trust-indicators {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    text-align: inherit;
+  }
+
+  .trust-value {
+    font-weight: 600;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .trust-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .iphone-container {
+    position: relative;
+    z-index: 12;
+    margin-top: -30px;
+    margin-bottom: 50px;
+  }
+
+  /* Organic transition to next section */
+  .hero-to-content-transition {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    background: linear-gradient(180deg, 
+      rgba(255, 97, 171, 0.08) 0%,
+      rgba(0, 211, 254, 0.04) 30%,
+      rgba(110, 195, 244, 0.02) 60%,
+      transparent 100%);
+    margin-top: -100px;
+    z-index: 5;
+  }
+
+  .hero-to-content-transition::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 0;
+    width: 100%;
+    height: 160px;
+    background: inherit;
+    border-radius: 60% 40% 0 0 / 100% 100% 0 0;
+    transform: scaleX(1.2);
+  }
+
+  /* Enhanced buttons for organic background */
   .btn-gradient-primary {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: white;
     padding: 16px 32px;
     border-radius: 8px;
@@ -173,18 +295,19 @@
     transition: all 0.3s ease;
     position: relative;
     cursor: pointer;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
   .btn-gradient-primary:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.35);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25);
   }
 
   .btn-gradient-secondary {
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
     padding: 16px 32px;
     border-radius: 8px;
@@ -193,12 +316,89 @@
     min-height: 52px;
     transition: all 0.3s ease;
     cursor: pointer;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
   .btn-gradient-secondary:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.35);
     transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
+
+  /* Floating shapes for organic feel */
+  .floating-shapes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .shape-rectangle {
+    position: absolute;
+    opacity: 0.15;
+    border-radius: 20px;
+    animation: float 12s ease-in-out infinite;
+  }
+
+  .shape-rectangle-1 {
+    width: 400px;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(0, 211, 254, 0.3), rgba(116, 169, 252, 0.2));
+    top: 10%;
+    right: -5%;
+    transform: rotate(15deg);
+    animation-delay: 0s;
+  }
+
+  .shape-rectangle-2 {
+    width: 320px;
+    height: 160px;
+    background: linear-gradient(45deg, rgba(255, 97, 171, 0.3), rgba(255, 186, 39, 0.2));
+    bottom: 20%;
+    left: -5%;
+    transform: rotate(-15deg);
+    animation-delay: 3s;
+  }
+
+  .shape-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.12;
+    animation: pulse-custom 10s ease-in-out infinite;
+  }
+
+  .shape-circle-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(58, 58, 255, 0.2) 0%, transparent 70%);
+    top: 30%;
+    right: 5%;
+    animation-delay: 1s;
+  }
+
+  .shape-circle-2 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(255, 51, 61, 0.2) 0%, transparent 70%);
+    bottom: 40%;
+    left: 10%;
+    animation-delay: 4s;
+  }
+
+  .accent-dots {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  .accent-dots-1 { top: 25%; right: 20%; }
+  .accent-dots-2 { top: 60%; left: 15%; }
+  .accent-dots-3 { bottom: 30%; right: 30%; }
 
   /* Primary button for sections */
   .primary-button {
@@ -266,6 +466,51 @@
 }
 
 @layer utilities {
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .hero-gradient-background {
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    }
+
+    .organic-background-shape {
+      border-radius: 0 0 40% 30% / 0 0 80% 60%;
+      height: 110%;
+    }
+
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 80px 20px 120px;
+      text-align: center;
+    }
+
+    .hero-text {
+      margin-top: 0;
+    }
+
+    .iphone-container {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .trust-indicators {
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+    }
+
+    .shape-rectangle {
+      transform: scale(0.7);
+    }
+
+    .shape-circle {
+      transform: scale(0.8);
+    }
+  }
+
   /* Animations */
   .fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
@@ -284,22 +529,32 @@
     }
   }
 
-  /* Floating animations */
+  /* Enhanced floating animations */
   @keyframes float {
-    0%, 100% { transform: rotate(15deg) translateY(0px); }
-    50% { transform: rotate(15deg) translateY(-20px); }
+    0%, 100% { 
+      transform: rotate(15deg) translateY(0px) scale(1); 
+    }
+    50% { 
+      transform: rotate(15deg) translateY(-25px) scale(1.05); 
+    }
   }
 
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.1); opacity: 0.4; }
+  @keyframes pulse-custom {
+    0%, 100% { 
+      transform: scale(1); 
+      opacity: 0.12; 
+    }
+    50% { 
+      transform: scale(1.15); 
+      opacity: 0.06; 
+    }
   }
 
   .animate-float {
-    animation: float 10s ease-in-out infinite;
+    animation: float 12s ease-in-out infinite;
   }
 
   .animate-pulse-custom {
-    animation: pulse 8s ease-in-out infinite;
+    animation: pulse-custom 10s ease-in-out infinite;
   }
 }
