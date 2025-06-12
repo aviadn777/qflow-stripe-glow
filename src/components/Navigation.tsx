@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Heart } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import UserAvatar from '@/components/auth/UserAvatar';
 
 interface NavigationProps {
   currentLanguage: 'hebrew' | 'english';
@@ -11,7 +12,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChange }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { openModal, setModalMode } = useAuth();
+  const { user, openModal, setModalMode } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,11 +24,22 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
   }, []);
 
   const navigationItems = {
-    hebrew: ['דף הבית', 'גלה סלונים', 'כניסה לעסק', 'תמחור', 'עזרה'],
-    english: ['Home', 'Discover Salons', 'Business Login', 'Pricing', 'Help']
+    hebrew: ['דף הבית', 'גלה סלונים', 'תמחור', 'עזרה'],
+    english: ['Home', 'Discover Salons', 'Pricing', 'Help']
   };
 
-  const currentItems = navigationItems[currentLanguage];
+  // Add business login for unauthenticated users
+  const getNavigationItems = () => {
+    const items = navigationItems[currentLanguage];
+    if (!user) {
+      return currentLanguage === 'hebrew' 
+        ? [...items.slice(0, 2), 'כניסה לעסק', ...items.slice(2)]
+        : [...items.slice(0, 2), 'Business Login', ...items.slice(2)];
+    }
+    return items;
+  };
+
+  const currentItems = getNavigationItems();
 
   const handleBusinessLoginClick = () => {
     setModalMode('signin');
@@ -96,7 +108,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
             ))}
           </div>
 
-          {/* Language Toggle & Mobile Menu */}
+          {/* Right Side - Language Toggle & User Avatar/Mobile Menu */}
           <div className="flex items-center space-x-4">
             {/* Language Toggle */}
             <button
@@ -113,6 +125,11 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
                 </span>
               </div>
             </button>
+
+            {/* User Avatar (when authenticated) */}
+            {user && (
+              <UserAvatar currentLanguage={currentLanguage} isScrolled={isScrolled} />
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -155,6 +172,62 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
                   {item}
                 </a>
               ))}
+              
+              {/* Mobile User Options (when authenticated) */}
+              {user && (
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  <div className={`text-sm text-gray-600 mb-2 ${
+                    currentLanguage === 'hebrew' ? 'hebrew-text text-right' : ''
+                  }`}>
+                    {user.email}
+                  </div>
+                  <div className="space-y-2">
+                    {currentLanguage === 'hebrew' ? (
+                      <>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors hebrew-text text-right w-full">
+                          פרופיל
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors hebrew-text text-right w-full">
+                          הגדרות חשבון
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors hebrew-text text-right w-full">
+                          לוח בקרה
+                        </button>
+                        <button 
+                          onClick={async () => {
+                            setIsMobileMenuOpen(false);
+                            const { signOut } = await import('@/contexts/AuthContext');
+                          }}
+                          className="block text-lg font-medium text-red-600 hover:text-red-700 transition-colors hebrew-text text-right w-full"
+                        >
+                          התנתק
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors w-full text-left">
+                          Profile
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors w-full text-left">
+                          Account Settings
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors w-full text-left">
+                          Dashboard
+                        </button>
+                        <button 
+                          onClick={async () => {
+                            setIsMobileMenuOpen(false);
+                            const { signOut } = await import('@/contexts/AuthContext');
+                          }}
+                          className="block text-lg font-medium text-red-600 hover:text-red-700 transition-colors w-full text-left"
+                        >
+                          Logout
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
