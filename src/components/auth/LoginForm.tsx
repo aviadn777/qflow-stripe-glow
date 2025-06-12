@@ -70,61 +70,63 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
-      <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium text-gray-700">
-          כתובת אימייל
-        </label>
-        <Input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="your@email.com"
-          required
-          className="bg-white/50 border-white/30 focus:border-[#635bff] transition-colors"
-          dir="ltr"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="password" className="text-sm font-medium text-gray-700">
-          סיסמה
-        </label>
-        <div className="relative">
+    <form onSubmit={handleSubmit} className="space-y-6" dir="rtl">
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-sm font-medium text-gray-700">
+            כתובת אימייל
+          </label>
           <Input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
             required
-            className="bg-white/50 border-white/30 focus:border-[#635bff] transition-colors pr-10"
+            className="h-12 bg-white border-gray-200 focus:border-[#635bff] focus:ring-[#635bff] transition-colors text-gray-900"
+            dir="ltr"
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-          >
-            {showPassword ? <EyeClosed className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="password" className="text-sm font-medium text-gray-700">
+            סיסמה
+          </label>
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              className="h-12 bg-white border-gray-200 focus:border-[#635bff] focus:ring-[#635bff] transition-colors text-gray-900 pl-12"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              {showPassword ? <EyeClosed className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-gradient-to-r from-[#635bff] to-[#0066ff] hover:from-[#5248e6] hover:to-[#0052cc] text-white font-semibold py-3 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg"
+        className="w-full h-12 bg-gradient-to-r from-[#635bff] to-[#0066ff] hover:from-[#5248e6] hover:to-[#0052cc] text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg text-base"
       >
         {loading ? "מתחבר..." : "כניסה"}
       </Button>
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-gray-300" />
+          <span className="w-full border-t border-gray-200" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-gray-500">או</span>
+          <span className="bg-white px-3 text-gray-500 font-medium">או</span>
         </div>
       </div>
 
@@ -133,7 +135,7 @@ const LoginForm = () => {
         onClick={handleGoogleLogin}
         disabled={loading}
         variant="outline"
-        className="w-full bg-white/50 border-white/30 hover:bg-white/70 text-gray-700 font-semibold py-3 rounded-xl transition-all duration-200 transform hover:scale-[1.02]"
+        className="w-full h-12 bg-white border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] text-base"
       >
         <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -143,6 +145,15 @@ const LoginForm = () => {
         </svg>
         כניסה עם Google
       </Button>
+
+      <div className="text-center">
+        <button
+          type="button"
+          className="text-sm text-[#635bff] hover:text-[#0066ff] transition-colors duration-200 font-medium"
+        >
+          שכחת סיסמה?
+        </button>
+      </div>
     </form>
   );
 };
