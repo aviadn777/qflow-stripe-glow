@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Heart } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface NavigationProps {
   currentLanguage: 'hebrew' | 'english';
@@ -10,6 +11,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChange }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { openModal, setModalMode } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +28,18 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
   };
 
   const currentItems = navigationItems[currentLanguage];
+
+  const handleBusinessLoginClick = () => {
+    setModalMode('signin');
+    openModal();
+  };
+
+  const handleNavItemClick = (item: string, index: number) => {
+    if (item === 'כניסה לעסק' || item === 'Business Login') {
+      handleBusinessLoginClick();
+    }
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -67,6 +81,10 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
               <a
                 key={index}
                 href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavItemClick(item, index);
+                }}
                 className={`text-sm font-medium transition-colors duration-200 hover:text-purple-600 ${
                   currentLanguage === 'hebrew' ? 'hebrew-text' : ''
                 } ${
@@ -126,10 +144,13 @@ const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChan
                 <a
                   key={index}
                   href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavItemClick(item, index);
+                  }}
                   className={`block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors ${
                     currentLanguage === 'hebrew' ? 'hebrew-text text-right' : ''
                   }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
                 </a>

@@ -1,12 +1,16 @@
+
 import React from 'react';
 import GradientBackground from './GradientBackground';
 import PhoneMockup from './PhoneMockup';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface HeroSectionProps {
   currentLanguage: 'hebrew' | 'english';
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
+  const { openModal, setModalMode } = useAuth();
+
   const content = {
     hebrew: {
       title: 'מהפכה בניהול התורים לסלונים ישראליים',
@@ -23,6 +27,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
   };
 
   const currentContent = content[currentLanguage];
+
+  const handlePrimaryCTAClick = () => {
+    setModalMode('signup');
+    openModal();
+  };
 
   return (
     <>
@@ -74,7 +83,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
             </div>
 
             <div className={`hero-buttons ${currentLanguage === 'hebrew' ? 'flex-row-reverse' : 'flex-row'}`}>
-              <button className="btn-gradient-primary">
+              <button className="btn-gradient-primary" onClick={handlePrimaryCTAClick}>
                 {currentContent.primaryCTA}
               </button>
               <button className="btn-gradient-secondary">

@@ -1,11 +1,15 @@
+
 import React from 'react';
 import { Check } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface PricingSectionProps {
   currentLanguage: 'hebrew' | 'english';
 }
 
 const PricingSection: React.FC<PricingSectionProps> = ({ currentLanguage }) => {
+  const { openModal, setModalMode } = useAuth();
+
   const content = {
     hebrew: {
       badge: 'הפופולרי ביותר',
@@ -52,6 +56,11 @@ const PricingSection: React.FC<PricingSectionProps> = ({ currentLanguage }) => {
   };
 
   const currentContent = content[currentLanguage];
+
+  const handleCTAClick = () => {
+    setModalMode('signup');
+    openModal();
+  };
 
   return (
     <section className="py-24 bg-gray-50">
@@ -142,7 +151,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({ currentLanguage }) => {
               </div>
 
               {/* CTA Button */}
-              <button className="w-full primary-button mb-4 text-optimized">
+              <button className="w-full primary-button mb-4 text-optimized" onClick={handleCTAClick}>
                 <span style={{
                   fontFamily: currentLanguage === 'hebrew' ? '"Noto Sans Hebrew", system-ui' : '"Inter", system-ui'
                 }}>
