@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -119,7 +118,7 @@ const HeroSection: React.FC = () => {
               </div>
               
               <div className="aspect-video bg-gray-100 rounded-lg mb-6 flex items-center justify-center">
-                <PhoneMockup currentLanguage={currentLanguage} />
+                <PhoneMockup />
               </div>
               
               {!user && (
@@ -221,7 +220,7 @@ const HeroSection: React.FC = () => {
 
           {/* Right Side - Phone Mockup */}
           <div className="iphone-container">
-            <PhoneMockup currentLanguage={currentLanguage} />
+            <PhoneMockup />
           </div>
         </div>
       </section>
