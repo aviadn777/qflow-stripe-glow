@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import ModernGradientHeart from '@/components/ui/ModernGradientHeart';
@@ -10,16 +9,7 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
-  const navigate = useNavigate();
   const { openAuthModal } = useAuth();
-
-  const handleDiscoverSalons = () => {
-    if (currentLanguage === 'hebrew') {
-      navigate('/גלה-סלונים');
-    } else {
-      navigate('/discover-salons');
-    }
-  };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#635bff] via-[#0066ff] to-[#00d4aa]">
@@ -61,23 +51,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
           }
         </p>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        {/* Action Buttons - Reverted to original single button */}
+        <div className="flex justify-center items-center">
           <Button
             onClick={() => openAuthModal('signup')}
             size="lg"
             className="bg-white text-[#635bff] hover:bg-gray-100 px-12 py-4 text-lg font-semibold shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
           >
             {currentLanguage === 'hebrew' ? 'התחל בחינם' : 'Start Free Trial'}
-          </Button>
-          
-          <Button
-            onClick={handleDiscoverSalons}
-            variant="outline"
-            size="lg"
-            className="border-2 border-white text-white hover:bg-white hover:text-[#635bff] px-12 py-4 text-lg font-semibold backdrop-blur-sm bg-white/10 transform hover:scale-105 transition-all duration-300"
-          >
-            {currentLanguage === 'hebrew' ? 'גלה סלונים' : 'Discover Salons'}
           </Button>
         </div>
 

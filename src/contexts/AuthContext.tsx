@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -16,6 +15,8 @@ interface AuthContextType {
   closeModal: () => void;
   modalMode: 'signin' | 'signup';
   setModalMode: (mode: 'signin' | 'signup') => void;
+  openAuthModal: (mode: 'login' | 'signup') => void;
+  logout: () => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -99,6 +100,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const openAuthModal = (mode: 'login' | 'signup') => {
+    setModalMode(mode === 'login' ? 'signin' : 'signup');
+    setIsModalOpen(true);
+  };
+
+  const logout = async () => {
+    return await signOut();
+  };
+
   const value = {
     user,
     session,
@@ -111,7 +121,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     openModal,
     closeModal,
     modalMode,
-    setModalMode
+    setModalMode,
+    openAuthModal,
+    logout
   };
 
   return (
