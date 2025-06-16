@@ -1,122 +1,135 @@
 
 import React from 'react';
-import GradientBackground from './GradientBackground';
-import PhoneMockup from './PhoneMockup';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import ModernGradientHeart from '@/components/ui/ModernGradientHeart';
 
 interface HeroSectionProps {
   currentLanguage: 'hebrew' | 'english';
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
-  const { openModal, setModalMode } = useAuth();
+  const navigate = useNavigate();
+  const { openAuthModal } = useAuth();
 
-  const content = {
-    hebrew: {
-      title: 'מהפכה בניהול התורים לסלונים ישראליים',
-      subtitle: 'פלטפורמה מתקדמת לחיסכון בזמן, הגדלת רווחים ושביעות רצון לקוחות מירבית',
-      primaryCTA: 'התחל תקופת ניסיון 14 יום בחינם ❤️',
-      secondaryCTA: 'צפה בהדגמה חיה'
-    },
-    english: {
-      title: 'Revolutionary Queue Management for Israeli Beauty Salons',
-      subtitle: 'Advanced platform for saving time, increasing profits, and maximum customer satisfaction',
-      primaryCTA: 'Start 14-Day Free Trial ❤️',
-      secondaryCTA: 'Watch Live Demo'
+  const handleDiscoverSalons = () => {
+    if (currentLanguage === 'hebrew') {
+      navigate('/גלה-סלונים');
+    } else {
+      navigate('/discover-salons');
     }
   };
 
-  const currentContent = content[currentLanguage];
-
-  const handlePrimaryCTAClick = () => {
-    setModalMode('signup');
-    openModal();
-  };
-
   return (
-    <>
-      <section className="hero-gradient-background">
-        {/* Animated Gradient Background with Organic Shapes */}
-        <GradientBackground />
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#635bff] via-[#0066ff] to-[#00d4aa]">
+      {/* Background Animation */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00d4aa] rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#ff6b6b] rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
 
-        {/* Floating Geometric Shapes */}
-        <div className="floating-shapes">
-          <div className="shape-rectangle shape-rectangle-1" />
-          <div className="shape-circle shape-circle-1" />
-          <div className="shape-rectangle shape-rectangle-2" />
-          <div className="shape-circle shape-circle-2" />
-          <div className="accent-dots accent-dots-1" />
-          <div className="accent-dots accent-dots-2" />
-          <div className="accent-dots accent-dots-3" />
+      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto" dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}>
+        {/* Heart Logo */}
+        <div className="flex justify-center mb-8">
+          <ModernGradientHeart size="xl" className="animate-pulse" />
         </div>
 
-        {/* Content Overlay */}
-        <div className="hero-content">
-          {/* Left Side - Content */}
-          <div className={`hero-text ${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'}`}>
-            <div className="space-y-6">
-              <h1
-                className="hero-title text-white"
-                data-text={currentContent.title}
-                style={{
-                  mixBlendMode: 'difference',
-                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.3))',
-                  textShadow: '0 0 20px rgba(255,255,255,0.5)',
-                  fontFamily: currentLanguage === 'hebrew' ? '"Noto Sans Hebrew", system-ui' : '"Inter", system-ui'
-                }}
-                dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}
-              >
-                {currentContent.title}
-              </h1>
+        {/* Main Heading */}
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+          {currentLanguage === 'hebrew' ? (
+            <>
+              פלטפורמת <span className="text-[#00d4aa]">תיאום תורים</span>
+              <br />
+              לעסקי יופי בישראל
+            </>
+          ) : (
+            <>
+              Appointment Booking <span className="text-[#00d4aa]">Platform</span>
+              <br />
+              for Beauty Businesses in Israel
+            </>
+          )}
+        </h1>
 
-              <p
-                className="hero-subtitle"
-                style={{
-                  color: 'rgba(255, 255, 255, 0.95)',
-                  fontFamily: currentLanguage === 'hebrew' ? '"Noto Sans Hebrew", system-ui' : '"Inter", system-ui',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                }}
-                dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}
-              >
-                {currentContent.subtitle}
-              </p>
-            </div>
+        {/* Subtitle */}
+        <p className="text-xl sm:text-2xl text-white/90 mb-12 max-w-4xl mx-auto leading-relaxed">
+          {currentLanguage === 'hebrew' 
+            ? 'הפלטפורמה המובילה לניהול תורים, לקוחות ותשלומים עבור מספרות, מכוני יופי וסלוני ציפורניים'
+            : 'The leading platform for managing appointments, customers, and payments for hair salons, beauty centers, and nail studios'
+          }
+        </p>
 
-            <div className={`hero-buttons ${currentLanguage === 'hebrew' ? 'flex-row-reverse' : 'flex-row'}`}>
-              <button className="btn-gradient-primary" onClick={handlePrimaryCTAClick}>
-                {currentContent.primaryCTA}
-              </button>
-              <button className="btn-gradient-secondary">
-                {currentContent.secondaryCTA}
-              </button>
-            </div>
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <Button
+            onClick={() => openAuthModal('signup')}
+            size="lg"
+            className="bg-white text-[#635bff] hover:bg-gray-100 px-12 py-4 text-lg font-semibold shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
+          >
+            {currentLanguage === 'hebrew' ? 'התחל בחינם' : 'Start Free Trial'}
+          </Button>
+          
+          <Button
+            onClick={handleDiscoverSalons}
+            variant="outline"
+            size="lg"
+            className="border-2 border-white text-white hover:bg-white hover:text-[#635bff] px-12 py-4 text-lg font-semibold backdrop-blur-sm bg-white/10 transform hover:scale-105 transition-all duration-300"
+          >
+            {currentLanguage === 'hebrew' ? 'גלה סלונים' : 'Discover Salons'}
+          </Button>
+        </div>
 
-            {/* Trust Indicators */}
-            <div className={`trust-indicators ${currentLanguage === 'hebrew' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`trust-item ${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'}`}>
-                <div className="trust-value">500+</div>
-                <div className="trust-label">{currentLanguage === 'hebrew' ? 'עסקים' : 'Businesses'}</div>
-              </div>
-              <div className={`trust-item ${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'}`}>
-                <div className="trust-value">99.2%</div>
-                <div className="trust-label">{currentLanguage === 'hebrew' ? 'זמינות' : 'Uptime'}</div>
-              </div>
-              <div className={`trust-item ${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'}`}>
-                <div className="trust-value">₪3M+</div>
-                <div className="trust-label">{currentLanguage === 'hebrew' ? 'הכנסות נוספות' : 'Additional Revenue'}</div>
-              </div>
+        {/* Features Preview */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-white/80">
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm">
+              <ModernGradientHeart size="sm" />
             </div>
+            <h3 className="text-lg font-semibold mb-2">
+              {currentLanguage === 'hebrew' ? 'ניהול תורים חכם' : 'Smart Scheduling'}
+            </h3>
+            <p className="text-sm text-center">
+              {currentLanguage === 'hebrew' 
+                ? 'מערכת תיאום תורים אוטומטית עם התראות SMS ואימייל'
+                : 'Automated appointment scheduling with SMS and email notifications'
+              }
+            </p>
           </div>
 
-          {/* Right Side - Phone Mockup */}
-          <div className="iphone-container">
-            <PhoneMockup currentLanguage={currentLanguage} />
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm">
+              <ModernGradientHeart size="sm" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">
+              {currentLanguage === 'hebrew' ? 'תשלומים מאובטחים' : 'Secure Payments'}
+            </h3>
+            <p className="text-sm text-center">
+              {currentLanguage === 'hebrew' 
+                ? 'עיבוד תשלומים מאובטח עם תמיכה בכל כרטיסי האשראי'
+                : 'Secure payment processing with support for all major credit cards'
+              }
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm">
+              <ModernGradientHeart size="sm" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">
+              {currentLanguage === 'hebrew' ? 'ניתוח נתונים' : 'Analytics Dashboard'}
+            </h3>
+            <p className="text-sm text-center">
+              {currentLanguage === 'hebrew' 
+                ? 'מעקב אחר ביצועים והכנסות עם דוחות מפורטים'
+                : 'Track performance and revenue with detailed reports'
+              }
+            </p>
           </div>
         </div>
-      </section>
-      {/* Organic transition to next section */}
-      <div className="hero-to-content-transition"></div>
-    </>
+      </div>
+    </div>
   );
 };
 
