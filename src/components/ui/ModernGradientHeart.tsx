@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { cn } from "@/lib/utils";
 
 interface ModernGradientHeartProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
   animated?: boolean;
 }
@@ -15,8 +16,7 @@ const ModernGradientHeart: React.FC<ModernGradientHeartProps> = ({
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-6 h-6',
-    lg: 'w-8 h-8',
-    xl: 'w-12 h-12'
+    lg: 'w-8 h-8'
   };
 
   return (

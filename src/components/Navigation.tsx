@@ -1,9 +1,8 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from 'react';
+import { Heart } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import ModernGradientHeart from '@/components/ui/ModernGradientHeart';
+import UserAvatar from '@/components/auth/UserAvatar';
 
 interface NavigationProps {
   currentLanguage: 'hebrew' | 'english';
@@ -11,182 +10,222 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ currentLanguage, onLanguageChange }) => {
-  const navigate = useNavigate();
-  const { user, openAuthModal, logout } = useAuth();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, openModal, setModalMode, signOut } = useAuth();
 
-  const handleDiscoverSalons = () => {
-    if (currentLanguage === 'hebrew') {
-      navigate('/גלה-סלונים');
-    } else {
-      navigate('/discover-salons');
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navigationItems = {
+    hebrew: ['דף הבית', 'גלה סלונים', 'תמחור', 'עזרה'],
+    english: ['Home', 'Discover Salons', 'Pricing', 'Help']
+  };
+
+  // Add business login for unauthenticated users
+  const getNavigationItems = () => {
+    const items = navigationItems[currentLanguage];
+    if (!user) {
+      return currentLanguage === 'hebrew' 
+        ? [...items.slice(0, 2), 'כניסה לעסק', ...items.slice(2)]
+        : [...items.slice(0, 2), 'Business Login', ...items.slice(2)];
     }
+    return items;
+  };
+
+  const currentItems = getNavigationItems();
+
+  const handleBusinessLoginClick = () => {
+    setModalMode('signin');
+    openModal();
+  };
+
+  const handleNavItemClick = (item: string, index: number) => {
+    if (item === 'כניסה לעסק' || item === 'Business Login') {
+      handleBusinessLoginClick();
+    }
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-200/50" dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg' 
+        : 'bg-transparent'
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
-            <ModernGradientHeart size="md" />
-            <span className="text-xl font-bold bg-gradient-to-r from-[#635bff] to-[#0066ff] bg-clip-text text-transparent">
-              QFlow
-            </span>
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center">
+              <span className="text-2xl font-bold" style={{ color: 'var(--stripe-purple)' }}>
+                Q
+              </span>
+              <div className="relative">
+                <span className="text-2xl font-bold" style={{ color: 'var(--stripe-purple)' }}>
+                  FLOW
+                </span>
+                <Heart 
+                  className="absolute -top-1 -right-6 w-4 h-4 text-red-500 animate-pulse" 
+                  fill="currentColor"
+                />
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <div className={`text-xs ${currentLanguage === 'hebrew' ? 'hebrew-text' : ''}`}>
+                {currentLanguage === 'hebrew' 
+                  ? 'מערכת ניהול תורים מתקדמת' 
+                  : 'Advanced Queue Management'
+                }
+              </div>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8" dir="ltr">
-            <Button
-              variant="ghost"
-              onClick={handleDiscoverSalons}
-              className="text-gray-700 hover:text-[#635bff] font-medium"
-            >
-              {currentLanguage === 'hebrew' ? 'גלה סלונים' : 'Discover Salons'}
-            </Button>
-            
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-[#635bff] font-medium"
-            >
-              {currentLanguage === 'hebrew' ? 'תמחור' : 'Pricing'}
-            </Button>
-            
-            {/* Language Toggle */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant={currentLanguage === 'hebrew' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => onLanguageChange('hebrew')}
-                className="text-sm"
+          <div className="hidden md:flex items-center space-x-8">
+            {currentItems.map((item, index) => (
+              <a
+                key={index}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavItemClick(item, index);
+                }}
+                className={`text-sm font-medium transition-colors duration-200 hover:text-purple-600 ${
+                  currentLanguage === 'hebrew' ? 'hebrew-text' : ''
+                } ${
+                  isScrolled ? 'text-gray-900' : 'text-white'
+                }`}
               >
-                עב
-              </Button>
-              <Button
-                variant={currentLanguage === 'english' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => onLanguageChange('english')}
-                className="text-sm"
-              >
-                EN
-              </Button>
-            </div>
-
-            {/* Auth Buttons */}
-            {user ? (
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-600">
-                  {currentLanguage === 'hebrew' ? 'שלום' : 'Hello'}, {user.email}
-                </span>
-                <Button
-                  variant="outline"
-                  onClick={logout}
-                  className="border-gray-300 hover:bg-gray-50"
-                >
-                  {currentLanguage === 'hebrew' ? 'התנתק' : 'Logout'}
-                </Button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="ghost"
-                  onClick={() => openAuthModal('login')}
-                  className="text-gray-700 hover:text-[#635bff]"
-                >
-                  {currentLanguage === 'hebrew' ? 'התחבר' : 'Login'}
-                </Button>
-                <Button
-                  onClick={() => openAuthModal('signup')}
-                  className="bg-gradient-to-r from-[#635bff] to-[#0066ff] hover:from-[#5a52e8] hover:to-[#0052cc] text-white px-6"
-                >
-                  {currentLanguage === 'hebrew' ? 'הרשמה' : 'Sign Up'}
-                </Button>
-              </div>
-            )}
+                {item}
+              </a>
+            ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2"
+          {/* Right Side - Language Toggle & User Avatar/Mobile Menu */}
+          <div className="flex items-center space-x-4">
+            {/* Language Toggle */}
+            <button
+              onClick={() => onLanguageChange(currentLanguage === 'hebrew' ? 'english' : 'hebrew')}
+              className={`relative w-16 h-8 rounded-full transition-colors duration-200 ${
+                isScrolled ? 'bg-gray-200' : 'bg-white/20 backdrop-blur-md'
+              }`}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </Button>
+              <div className={`absolute top-1 w-6 h-6 bg-purple-600 rounded-full transition-transform duration-200 flex items-center justify-center ${
+                currentLanguage === 'hebrew' ? 'transform translate-x-1' : 'transform translate-x-9'
+              }`}>
+                <span className="text-xs font-bold text-white">
+                  {currentLanguage === 'hebrew' ? 'ע' : 'EN'}
+                </span>
+              </div>
+            </button>
+
+            {/* User Avatar (when authenticated) */}
+            {user && (
+              <UserAvatar currentLanguage={currentLanguage} isScrolled={isScrolled} />
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`md:hidden p-2 rounded-lg transition-colors ${
+                isScrolled ? 'text-gray-900' : 'text-white'
+              }`}
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span className={`bg-current block transition-all duration-300 h-0.5 w-6 transform ${
+                  isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : '-translate-y-0.5'
+                }`}></span>
+                <span className={`bg-current block transition-all duration-300 h-0.5 w-6 ${
+                  isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
+                }`}></span>
+                <span className={`bg-current block transition-all duration-300 h-0.5 w-6 transform ${
+                  isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : 'translate-y-0.5'
+                }`}></span>
+              </div>
+            </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200/50">
-            <div className="flex flex-col space-y-4">
-              <Button
-                variant="ghost"
-                onClick={handleDiscoverSalons}
-                className="text-left text-gray-700 hover:text-[#635bff] font-medium justify-start"
-              >
-                {currentLanguage === 'hebrew' ? 'גלה סלונים' : 'Discover Salons'}
-              </Button>
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg border-t">
+            <div className="px-6 py-4 space-y-4">
+              {currentItems.map((item, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavItemClick(item, index);
+                  }}
+                  className={`block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors ${
+                    currentLanguage === 'hebrew' ? 'hebrew-text text-right' : ''
+                  }`}
+                >
+                  {item}
+                </a>
+              ))}
               
-              <Button
-                variant="ghost"
-                className="text-left text-gray-700 hover:text-[#635bff] font-medium justify-start"
-              >
-                {currentLanguage === 'hebrew' ? 'תמחור' : 'Pricing'}
-              </Button>
-
-              {/* Language Toggle */}
-              <div className="flex items-center gap-2 px-3">
-                <Button
-                  variant={currentLanguage === 'hebrew' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => onLanguageChange('hebrew')}
-                  className="text-sm"
-                >
-                  עב
-                </Button>
-                <Button
-                  variant={currentLanguage === 'english' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => onLanguageChange('english')}
-                  className="text-sm"
-                >
-                  EN
-                </Button>
-              </div>
-
-              {/* Auth Buttons */}
-              {user ? (
-                <div className="px-3 space-y-2">
-                  <p className="text-sm text-gray-600">
-                    {currentLanguage === 'hebrew' ? 'שלום' : 'Hello'}, {user.email}
-                  </p>
-                  <Button
-                    variant="outline"
-                    onClick={logout}
-                    className="w-full border-gray-300 hover:bg-gray-50"
-                  >
-                    {currentLanguage === 'hebrew' ? 'התנתק' : 'Logout'}
-                  </Button>
-                </div>
-              ) : (
-                <div className="px-3 space-y-2">
-                  <Button
-                    variant="ghost"
-                    onClick={() => openAuthModal('login')}
-                    className="w-full text-gray-700 hover:text-[#635bff] justify-start"
-                  >
-                    {currentLanguage === 'hebrew' ? 'התחבר' : 'Login'}
-                  </Button>
-                  <Button
-                    onClick={() => openAuthModal('signup')}
-                    className="w-full bg-gradient-to-r from-[#635bff] to-[#0066ff] hover:from-[#5a52e8] hover:to-[#0052cc] text-white"
-                  >
-                    {currentLanguage === 'hebrew' ? 'הרשמה' : 'Sign Up'}
-                  </Button>
+              {/* Mobile User Options (when authenticated) */}
+              {user && (
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  <div className={`text-sm text-gray-600 mb-2 ${
+                    currentLanguage === 'hebrew' ? 'hebrew-text text-right' : ''
+                  }`}>
+                    {user.email}
+                  </div>
+                  <div className="space-y-2">
+                    {currentLanguage === 'hebrew' ? (
+                      <>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors hebrew-text text-right w-full">
+                          פרופיל
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors hebrew-text text-right w-full">
+                          הגדרות חשבון
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors hebrew-text text-right w-full">
+                          לוח בקרה
+                        </button>
+                        <button 
+                          onClick={async () => {
+                            setIsMobileMenuOpen(false);
+                            await signOut();
+                          }}
+                          className="block text-lg font-medium text-red-600 hover:text-red-700 transition-colors hebrew-text text-right w-full"
+                        >
+                          התנתק
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors w-full text-left">
+                          Profile
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors w-full text-left">
+                          Account Settings
+                        </button>
+                        <button className="block text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors w-full text-left">
+                          Dashboard
+                        </button>
+                        <button 
+                          onClick={async () => {
+                            setIsMobileMenuOpen(false);
+                            await signOut();
+                          }}
+                          className="block text-lg font-medium text-red-600 hover:text-red-700 transition-colors w-full text-left"
+                        >
+                          Logout
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
