@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import AuthModal from "@/components/auth/AuthModal";
 import Index from "./pages/Index";
+import DiscoverSalons from "./pages/DiscoverSalons";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,8 @@ const App: React.FC = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/discover-salons" element={<DiscoverSalons currentLanguage="english" />} />
+              <Route path="/גלה-סלונים" element={<DiscoverSalons currentLanguage="hebrew" />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
