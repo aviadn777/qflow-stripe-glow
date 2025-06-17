@@ -15,10 +15,11 @@ export interface Business {
   // Computed fields
   rating: number;
   review_count: number;
-  price_range: string;
+  price_range: string; // Changed from [number, number] to string to match actual usage
   photo_url: string;
   is_available_today: boolean;
   services?: Service[];
+  services_count: number; // Added this field that was missing
 }
 
 export interface Service {

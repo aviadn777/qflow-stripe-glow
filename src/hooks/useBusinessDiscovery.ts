@@ -90,7 +90,8 @@ export function useBusinessDiscovery(filters: SearchFilters) {
           review_count: Math.floor(Math.random() * 100) + 50, // Mock 50-150
           price_range: calculatePriceRange(business.services),
           photo_url: getBusinessPhoto(business.type),
-          is_available_today: Math.random() > 0.3 // 70% availability
+          is_available_today: Math.random() > 0.3, // 70% availability
+          services_count: business.services?.length || 0 // Add services count
         };
       }).filter(Boolean); // Remove null entries from filtering
     }
