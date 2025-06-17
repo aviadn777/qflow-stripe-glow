@@ -20,16 +20,16 @@ const IntelligentMoodFilters: React.FC<IntelligentMoodFiltersProps> = ({
 }) => {
   const moods = {
     hebrew: [
-      { emoji: '😊', text: 'רוצה לחייך יותר', type: 'hair' },
-      { emoji: '💆‍♀️', text: 'צריכה להירגע', type: 'spa' },
-      { emoji: '✨', text: 'רוצה להזריח', type: 'beauty' },
-      { emoji: '💅', text: 'זמן לפרטים הקטנים', type: 'nails' }
+      { emoji: '😊', text: 'רוצה לחייך יותר', type: 'hair_salon' },
+      { emoji: '💆‍♀️', text: 'צריכה להירגע', type: 'beauty_salon' },
+      { emoji: '✨', text: 'רוצה להזריח', type: 'beauty_salon' },
+      { emoji: '💅', text: 'זמן לפרטים הקטנים', type: 'nail_studio' }
     ],
     english: [
-      { emoji: '😊', text: 'Want to smile more', type: 'hair' },
-      { emoji: '💆‍♀️', text: 'Need to relax', type: 'spa' },
-      { emoji: '✨', text: 'Want to shine', type: 'beauty' },
-      { emoji: '💅', text: 'Time for small details', type: 'nails' }
+      { emoji: '😊', text: 'Want to smile more', type: 'hair_salon' },
+      { emoji: '💆‍♀️', text: 'Need to relax', type: 'beauty_salon' },
+      { emoji: '✨', text: 'Want to shine', type: 'beauty_salon' },
+      { emoji: '💅', text: 'Time for small details', type: 'nail_studio' }
     ]
   };
 
@@ -50,16 +50,16 @@ const IntelligentMoodFilters: React.FC<IntelligentMoodFiltersProps> = ({
 
   const budgetRanges = {
     hebrew: [
-      { emoji: '💝', text: 'מתנה לעצמי', range: [50, 100] },
-      { emoji: '👑', text: 'אני שווה את זה', range: [100, 200] },
-      { emoji: '✨', text: 'יום מיוחד', range: [200, 300] },
-      { emoji: '🌟', text: 'פעם בחיים', range: [300, 500] }
+      { emoji: '💝', text: 'מתנה לעצמי', range: [50, 100] as [number, number] },
+      { emoji: '👑', text: 'אני שווה את זה', range: [100, 200] as [number, number] },
+      { emoji: '✨', text: 'יום מיוחד', range: [200, 300] as [number, number] },
+      { emoji: '🌟', text: 'פעם בחיים', range: [300, 500] as [number, number] }
     ],
     english: [
-      { emoji: '💝', text: 'Gift to myself', range: [50, 100] },
-      { emoji: '👑', text: 'I\'m worth it', range: [100, 200] },
-      { emoji: '✨', text: 'Special day', range: [200, 300] },
-      { emoji: '🌟', text: 'Once in a lifetime', range: [300, 500] }
+      { emoji: '💝', text: 'Gift to myself', range: [50, 100] as [number, number] },
+      { emoji: '👑', text: 'I\'m worth it', range: [100, 200] as [number, number] },
+      { emoji: '✨', text: 'Special day', range: [200, 300] as [number, number] },
+      { emoji: '🌟', text: 'Once in a lifetime', range: [300, 500] as [number, number] }
     ]
   };
 
@@ -178,7 +178,7 @@ const IntelligentMoodFilters: React.FC<IntelligentMoodFiltersProps> = ({
           <div className="px-3">
             <Slider
               value={filters.price_range}
-              onValueChange={(value) => onFiltersChange({...filters, price_range: value})}
+              onValueChange={(value) => onFiltersChange({...filters, price_range: value as [number, number]})}
               max={500}
               min={30}
               step={10}

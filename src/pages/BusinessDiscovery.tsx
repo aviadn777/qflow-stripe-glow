@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useBusinessDiscovery } from '@/hooks/useBusinessDiscovery';
-import { SearchFilters } from '@/types/business';
+import { SearchFilters, Business as BusinessType } from '@/types/business';
 import HeartfeltWelcomeHero from '@/components/discovery/HeartfeltWelcomeHero';
 import SmartSearchExperience from '@/components/discovery/SmartSearchExperience';
 import IntelligentMoodFilters from '@/components/discovery/IntelligentMoodFilters';
@@ -16,6 +16,12 @@ import JoyfulLoadingStates from '@/components/discovery/JoyfulLoadingStates';
 
 interface BusinessDiscoveryProps {
   currentLanguage?: 'hebrew' | 'english';
+}
+
+// Extended business interface for discovery components
+interface DiscoveryBusiness extends BusinessType {
+  services_count: number;
+  image_url?: string;
 }
 
 const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({ 
@@ -37,13 +43,20 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
 
   const { data: businesses, isLoading, error } = useBusinessDiscovery(filters);
 
-  const filteredBusinesses = businesses?.filter(business => {
+  // Transform businesses to include services_count
+  const discoveryBusinesses: DiscoveryBusiness[] = businesses?.map(business => ({
+    ...business,
+    services_count: business.services?.length || 0,
+    image_url: business.photo_url
+  })) || [];
+
+  const filteredBusinesses = discoveryBusinesses.filter(business => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     const name = (currentLanguage === 'hebrew' ? business.name_he : business.name).toLowerCase();
     const city = business.city.toLowerCase();
     return name.includes(query) || city.includes(query);
-  }) || [];
+  });
 
   const handleBookNow = (businessId: string) => {
     navigate(`/business/${businessId}/book`);
@@ -86,6 +99,10 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
             transform: translateY(0);
           }
         }
+        
+        .font-hebrew {
+          font-family: "Noto Sans Hebrew", system-ui;
+        }
       `}</style>
       
       <div className="min-h-screen bg-gray-50" dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}>
@@ -123,7 +140,9 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
               {/* Results Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                  <h2 className={`text-xl font-semibold text-gray-900 ${
+                    currentLanguage === 'hebrew' ? 'font-hebrew' : ''
+                  }`}>
                     {isLoading ? (
                       <Skeleton className="h-6 w-32" />
                     ) : (
@@ -143,7 +162,9 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
                   <Button
                     variant="outline"
                     onClick={() => setShowFilters(!showFilters)}
-                    className="px-6 py-3 border-gray-200 hover:bg-gray-50"
+                    className={`px-6 py-3 border-gray-200 hover:bg-gray-50 ${
+                      currentLanguage === 'hebrew' ? 'font-hebrew' : ''
+                    }`}
                   >
                     <Filter className="w-5 h-5 mr-2" />
                     {currentLanguage === 'hebrew' ? 'מסננים' : 'Filters'}
@@ -177,10 +198,14 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
                   <div className="mb-4">
                     <div className="text-6xl mb-4">💄</div>
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  <h3 className={`text-lg font-medium text-gray-900 mb-2 ${
+                    currentLanguage === 'hebrew' ? 'font-hebrew' : ''
+                  }`}>
                     {currentLanguage === 'hebrew' ? 'לא מצאנו בדיוק מה שחיפשת, אבל יש לנו רעיונות אחרים ❤️' : 'We didn\'t find exactly what you were looking for, but we have other ideas ❤️'}
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className={`text-gray-600 mb-4 ${
+                    currentLanguage === 'hebrew' ? 'font-hebrew' : ''
+                  }`}>
                     {currentLanguage === 'hebrew' 
                       ? 'חזרי מתי שתרצי, אנחנו תמיד כאן 🌟'
                       : 'Come back whenever you want, we\'re always here 🌟'
@@ -198,6 +223,7 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
                       });
                       setSearchQuery('');
                     }}
+                    className={currentLanguage === 'hebrew' ? 'font-hebrew' : ''}
                   >
                     {currentLanguage === 'hebrew' ? 'נקה סינונים' : 'Clear Filters'}
                   </Button>
