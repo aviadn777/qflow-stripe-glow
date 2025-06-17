@@ -3,9 +3,13 @@ import React, { useState, useEffect } from 'react';
 
 interface HeartfeltWelcomeHeroProps {
   currentLanguage: 'hebrew' | 'english';
+  onAddHeart: (amount: number) => void;
 }
 
-const HeartfeltWelcomeHero: React.FC<HeartfeltWelcomeHeroProps> = ({ currentLanguage }) => {
+const HeartfeltWelcomeHero: React.FC<HeartfeltWelcomeHeroProps> = ({ 
+  currentLanguage, 
+  onAddHeart 
+}) => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -37,6 +41,10 @@ const HeartfeltWelcomeHero: React.FC<HeartfeltWelcomeHeroProps> = ({ currentLang
 
   const floatingElements = ['💄', '🖌️', '💅', '✂️', '🌟', '✨'];
 
+  const handleWelcomeInteraction = () => {
+    onAddHeart(1); // Add a heart when user interacts with the welcome section
+  };
+
   return (
     <>
       <style>{`
@@ -66,13 +74,14 @@ const HeartfeltWelcomeHero: React.FC<HeartfeltWelcomeHeroProps> = ({ currentLang
         {floatingElements.map((emoji, index) => (
           <div
             key={index}
-            className="absolute text-2xl md:text-3xl opacity-20 animate-float"
+            className="absolute text-2xl md:text-3xl opacity-20 animate-float cursor-pointer hover:opacity-40 transition-opacity"
             style={{
               left: `${15 + (index * 15)}%`,
               top: `${20 + (index % 3) * 20}%`,
               animationDelay: `${index * 0.5}s`,
               animationDuration: `${3 + (index % 3)}s`
             }}
+            onClick={handleWelcomeInteraction}
           >
             {emoji}
           </div>
@@ -83,7 +92,7 @@ const HeartfeltWelcomeHero: React.FC<HeartfeltWelcomeHeroProps> = ({ currentLang
           <div className="space-y-6">
             {/* Time-based Greeting */}
             <h1 
-              className={`text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight ${
+              className={`text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight cursor-pointer hover:scale-105 transition-transform ${
                 currentLanguage === 'hebrew' ? 'font-hebrew' : ''
               }`}
               dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}
@@ -91,6 +100,7 @@ const HeartfeltWelcomeHero: React.FC<HeartfeltWelcomeHeroProps> = ({ currentLang
                 textShadow: '0 2px 20px rgba(0,0,0,0.3)',
                 fontFamily: currentLanguage === 'hebrew' ? '"Noto Sans Hebrew", system-ui' : '"Inter", system-ui'
               }}
+              onClick={handleWelcomeInteraction}
             >
               {getTimeBasedGreeting()}
             </h1>
@@ -114,19 +124,19 @@ const HeartfeltWelcomeHero: React.FC<HeartfeltWelcomeHeroProps> = ({ currentLang
 
             {/* Quick Stats */}
             <div className="flex justify-center items-center gap-8 mt-8">
-              <div className="text-center">
+              <div className="text-center cursor-pointer hover:scale-110 transition-transform" onClick={handleWelcomeInteraction}>
                 <div className="text-2xl md:text-3xl font-bold text-white">500+</div>
                 <div className="text-sm text-white/80">
                   {currentLanguage === 'hebrew' ? 'סלונים' : 'Salons'}
                 </div>
               </div>
-              <div className="text-center">
+              <div className="text-center cursor-pointer hover:scale-110 transition-transform" onClick={handleWelcomeInteraction}>
                 <div className="text-2xl md:text-3xl font-bold text-white">99.2%</div>
                 <div className="text-sm text-white/80">
                   {currentLanguage === 'hebrew' ? 'שביעות רצון' : 'Satisfaction'}
                 </div>
               </div>
-              <div className="text-center">
+              <div className="text-center cursor-pointer hover:scale-110 transition-transform" onClick={handleWelcomeInteraction}>
                 <div className="text-2xl md:text-3xl font-bold text-white">24/7</div>
                 <div className="text-sm text-white/80">
                   {currentLanguage === 'hebrew' ? 'תמיכה' : 'Support'}
