@@ -30,6 +30,7 @@ const App: React.FC = () => {
               <Route path="/discovery" element={<BusinessDiscovery currentLanguage="english" />} />
               <Route path="/גילוי" element={<BusinessDiscovery currentLanguage="hebrew" />} />
               <Route path="/testing" element={<Testing />} />
+              <Route path="/qa" element={<Testing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
