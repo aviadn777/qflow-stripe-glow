@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Filter, Grid3X3, List } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Filter, Grid3X3, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -75,149 +74,8 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50" dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}>
-      {/* Heartfelt Welcome Hero */}
-      <HeartfeltWelcomeHero currentLanguage={currentLanguage} />
-
-      {/* Gamification Header */}
-      <DiscoveryGameification hearts={hearts} currentLanguage={currentLanguage} />
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Smart Search Experience */}
-        <SmartSearchExperience
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          currentLanguage={currentLanguage}
-          onAddHeart={handleAddHeart}
-        />
-
-        <div className="flex gap-8 mt-8">
-          {/* Intelligent Mood Filters */}
-          {showFilters && (
-            <div className="w-80 flex-shrink-0">
-              <IntelligentMoodFilters
-                filters={filters}
-                onFiltersChange={setFilters}
-                currentLanguage={currentLanguage}
-                onAddHeart={handleAddHeart}
-              />
-            </div>
-          )}
-
-          {/* Results */}
-          <div className="flex-1">
-            {/* Results Header */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  {isLoading ? (
-                    <Skeleton className="h-6 w-32" />
-                  ) : (
-                    `${filteredBusinesses.length} ${
-                      currentLanguage === 'hebrew' ? 'עסקים נמצאו' : 'businesses found'
-                    }`
-                  )}
-                </h2>
-                {filteredBusinesses.length > 0 && (
-                  <Badge variant="outline" className="text-green-600 border-green-200">
-                    {currentLanguage === 'hebrew' ? 'זמין לתיאום' : 'Available for booking'}
-                  </Badge>
-                )}
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="px-6 py-3 border-gray-200 hover:bg-gray-50"
-                >
-                  <Filter className="w-5 h-5 mr-2" />
-                  {currentLanguage === 'hebrew' ? 'מסננים' : 'Filters'}
-                </Button>
-                <div className="flex border rounded-lg">
-                  <Button
-                    variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setViewMode('grid')}
-                    className="rounded-r-none"
-                  >
-                    <Grid3X3 className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === 'list' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setViewMode('list')}
-                    className="rounded-l-none"
-                  >
-                    <List className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Business Grid */}
-            {isLoading ? (
-              <JoyfulLoadingStates currentLanguage={currentLanguage} />
-            ) : filteredBusinesses.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="mb-4">
-                  <div className="text-6xl mb-4">💄</div>
-                </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  {currentLanguage === 'hebrew' ? 'לא מצאנו בדיוק מה שחיפשת, אבל יש לנו רעיונות אחרים ❤️' : 'We didn\'t find exactly what you were looking for, but we have other ideas ❤️'}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  {currentLanguage === 'hebrew' 
-                    ? 'חזרי מתי שתרצי, אנחנו תמיד כאן 🌟'
-                    : 'Come back whenever you want, we\'re always here 🌟'
-                  }
-                </p>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setFilters({
-                      location: ['All'],
-                      business_type: 'all',
-                      price_range: [30, 300],
-                      rating: 4.0,
-                      availability: 'any'
-                    });
-                    setSearchQuery('');
-                  }}
-                >
-                  {currentLanguage === 'hebrew' ? 'נקה סינונים' : 'Clear Filters'}
-                </Button>
-              </div>
-            ) : (
-              <div 
-                className={`grid gap-6 ${
-                  viewMode === 'grid' 
-                    ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
-                    : 'grid-cols-1'
-                }`}
-                style={{
-                  animation: 'fadeInStaggered 0.6s ease-out'
-                }}
-              >
-                {filteredBusinesses.map((business, index) => (
-                  <MagicalBusinessCard
-                    key={business.id}
-                    business={business}
-                    currentLanguage={currentLanguage}
-                    onBookNow={handleBookNow}
-                    onViewProfile={handleViewProfile}
-                    onAddHeart={handleAddHeart}
-                    animationDelay={index * 0.1}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <style jsx>{`
+    <>
+      <style>{`
         @keyframes fadeInStaggered {
           0% {
             opacity: 0;
@@ -229,7 +87,150 @@ const BusinessDiscovery: React.FC<BusinessDiscoveryProps> = ({
           }
         }
       `}</style>
-    </div>
+      
+      <div className="min-h-screen bg-gray-50" dir={currentLanguage === 'hebrew' ? 'rtl' : 'ltr'}>
+        {/* Heartfelt Welcome Hero */}
+        <HeartfeltWelcomeHero currentLanguage={currentLanguage} />
+
+        {/* Gamification Header */}
+        <DiscoveryGameification hearts={hearts} currentLanguage={currentLanguage} />
+
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Smart Search Experience */}
+          <SmartSearchExperience
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            currentLanguage={currentLanguage}
+            onAddHeart={handleAddHeart}
+          />
+
+          <div className="flex gap-8 mt-8">
+            {/* Intelligent Mood Filters */}
+            {showFilters && (
+              <div className="w-80 flex-shrink-0">
+                <IntelligentMoodFilters
+                  filters={filters}
+                  onFiltersChange={setFilters}
+                  currentLanguage={currentLanguage}
+                  onAddHeart={handleAddHeart}
+                />
+              </div>
+            )}
+
+            {/* Results */}
+            <div className="flex-1">
+              {/* Results Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    {isLoading ? (
+                      <Skeleton className="h-6 w-32" />
+                    ) : (
+                      `${filteredBusinesses.length} ${
+                        currentLanguage === 'hebrew' ? 'עסקים נמצאו' : 'businesses found'
+                      }`
+                    )}
+                  </h2>
+                  {filteredBusinesses.length > 0 && (
+                    <Badge variant="outline" className="text-green-600 border-green-200">
+                      {currentLanguage === 'hebrew' ? 'זמין לתיאום' : 'Available for booking'}
+                    </Badge>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowFilters(!showFilters)}
+                    className="px-6 py-3 border-gray-200 hover:bg-gray-50"
+                  >
+                    <Filter className="w-5 h-5 mr-2" />
+                    {currentLanguage === 'hebrew' ? 'מסננים' : 'Filters'}
+                  </Button>
+                  <div className="flex border rounded-lg">
+                    <Button
+                      variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                      size="sm"
+                      onClick={() => setViewMode('grid')}
+                      className="rounded-r-none"
+                    >
+                      <Grid3X3 className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant={viewMode === 'list' ? 'default' : 'ghost'}
+                      size="sm"
+                      onClick={() => setViewMode('list')}
+                      className="rounded-l-none"
+                    >
+                      <List className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Business Grid */}
+              {isLoading ? (
+                <JoyfulLoadingStates currentLanguage={currentLanguage} />
+              ) : filteredBusinesses.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="mb-4">
+                    <div className="text-6xl mb-4">💄</div>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    {currentLanguage === 'hebrew' ? 'לא מצאנו בדיוק מה שחיפשת, אבל יש לנו רעיונות אחרים ❤️' : 'We didn\'t find exactly what you were looking for, but we have other ideas ❤️'}
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    {currentLanguage === 'hebrew' 
+                      ? 'חזרי מתי שתרצי, אנחנו תמיד כאן 🌟'
+                      : 'Come back whenever you want, we\'re always here 🌟'
+                    }
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setFilters({
+                        location: ['All'],
+                        business_type: 'all',
+                        price_range: [30, 300],
+                        rating: 4.0,
+                        availability: 'any'
+                      });
+                      setSearchQuery('');
+                    }}
+                  >
+                    {currentLanguage === 'hebrew' ? 'נקה סינונים' : 'Clear Filters'}
+                  </Button>
+                </div>
+              ) : (
+                <div 
+                  className={`grid gap-6 ${
+                    viewMode === 'grid' 
+                      ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
+                      : 'grid-cols-1'
+                  }`}
+                  style={{
+                    animation: 'fadeInStaggered 0.6s ease-out'
+                  }}
+                >
+                  {filteredBusinesses.map((business, index) => (
+                    <MagicalBusinessCard
+                      key={business.id}
+                      business={business}
+                      currentLanguage={currentLanguage}
+                      onBookNow={handleBookNow}
+                      onViewProfile={handleViewProfile}
+                      onAddHeart={handleAddHeart}
+                      animationDelay={index * 0.1}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
