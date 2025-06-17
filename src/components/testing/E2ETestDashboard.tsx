@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,7 +18,7 @@ interface TestFlow {
 interface TestStep {
   id: string;
   description: string;
-  status: 'pending' | 'passed' | 'failed';
+  status: 'pending' | 'in-progress' | 'passed' | 'failed';
   notes?: string;
 }
 
