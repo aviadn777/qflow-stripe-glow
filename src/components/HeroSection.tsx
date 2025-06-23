@@ -35,7 +35,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
 
   return (
     <>
-      <section className="hero-gradient-background">
+      <section className="hero-section-mobile-fixed">
         {/* Animated Gradient Background with Organic Shapes */}
         <GradientBackground />
 
@@ -51,10 +51,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
         </div>
 
         {/* Content Overlay */}
-        <div className="hero-content">
+        <div className="hero-content-wrapper">
           {/* Left Side - Content */}
-          <div className={`hero-text ${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'}`}>
-            <div className="space-y-6">
+          <div className={`hero-text-container ${currentLanguage === 'hebrew' ? 'text-right' : 'text-left'}`}>
+            <div className="space-y-4 md:space-y-6">
               <h1
                 className="hero-title text-white"
                 data-text={currentContent.title}
@@ -109,7 +109,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ currentLanguage }) => {
           </div>
 
           {/* Right Side - Phone Mockup */}
-          <div className="iphone-container">
+          <div className="iphone-container-wrapper">
             <PhoneMockup currentLanguage={currentLanguage} />
           </div>
         </div>
